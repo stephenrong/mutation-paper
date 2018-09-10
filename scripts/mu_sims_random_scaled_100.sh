@@ -1,0 +1,26 @@
+#!/bin/bash
+sbatch ./temp_scripts/mu_sims_random_scaled_100_200.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_400.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_600.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_800.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_1000.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_1200.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_1400.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_1600.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_1800.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_2000.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_2200.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_2400.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_2600.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_2800.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_3000.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_3200.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_3400.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_3600.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_3800.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_4000.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_4200.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_4400.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_4600.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_4800.sh
+sbatch ./temp_scripts/mu_sims_random_scaled_100_5000.sh
