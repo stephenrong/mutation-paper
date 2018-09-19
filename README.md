@@ -12,7 +12,7 @@ results/ folder contains placeholder directories for simulations and figures.
 
 scripts/ folder contains the following scripts:
 
-- mu_sims_matrix.R is used to preprocess ERM rates from Carlson et al. Nat. Comm. 2018 into mutation rate profiles with varying levels of mutational bias (output files are already included in data/ folder).
+- mu_sims_matrix.R is used to preprocess ERM rates from Carlson et al. Nat. Comm. 2018 into mutation rate profiles with varying levels of mutational bias. Output files are already included in data/.
 
 - mu_sims_module.py is a module containing functions for loading requisite data of ERM rates, EI scores, and Grantham scores, generating random sequences, performing simulations, and tracking summary statistics.
 
