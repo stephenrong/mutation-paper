@@ -6,7 +6,7 @@ Custom scripts written by Stephen Rong (Fairbrother Lab, Brown University). Have
 
 ### Contents:
 
-data/ folder contains all required data files for performing simulations and supporting files for plotting results, with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene predictions, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
+data/ folder contains all required data files for performing simulations and supporting files for plotting results, with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
 
 results/ folder contains placeholder directories for simulations and figures.
 
@@ -14,7 +14,7 @@ scripts/ folder contains the following scripts:
 
 - mu_sims_matrix.R is used to preprocess ERM rates from Carlson et al. Nat. Comm. 2018 into mutation rate profiles with varying levels of mutational bias (output files are already included in data/ folder).
 
-- mu_sims_module.py is a module containing functions for loading requisite data of ERM rates, EI scores, and Grantham scores, generating random sequences, and for performing simulations.
+- mu_sims_module.py is a module containing functions for loading requisite data of ERM rates, EI scores, and Grantham scores, generating random sequences, performing simulations, and tracking summary statistics.
 
 - mu_sims_random.py, mu_sims_exon.py, mu_sims_intron.py specify the simulations based on random sequences, human exonic sequences, and human intronic sequences (only used to compute intronic mean ERM rate and mean EI score).
 
