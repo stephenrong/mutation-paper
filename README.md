@@ -6,11 +6,11 @@ Custom scripts written by Stephen Rong (Fairbrother Lab, Brown University). Have
 
 ### Contents:
 
-data/ folder contains all required data files for performing simulations and supporting data for plotting results, with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can instead be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
+data/ contains all required data files for performing simulations and supporting data for plotting results, with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can instead be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
 
-results/ folder contains placeholder directories for simulations and figures.
+results/ contains placeholder directories for simulations and figures.
 
-scripts/ folder contains the following scripts:
+scripts/ contains the following scripts:
 
 - mu_sims_matrix.R is used to preprocess ERM rates from Carlson et al. Nat. Comm. 2018 into mutation rate profiles with varying levels of mutational bias. Output files are already included in data/.
 
@@ -18,7 +18,7 @@ scripts/ folder contains the following scripts:
 
 - mu_sims_random.py, mu_sims_exon.py, mu_sims_intron.py specify the simulations based on random sequences, human exonic sequences, and human intronic sequences (only used to compute intronic mean ERM rate and mean EI score).
 
-- mu_sims_exon_sh.py, mu_sims_intron_sh.py, mu_sims_random_sh.py are used to generate Slurm job files that partition simulation iterations into many jobs, and also generate mu_sims_exon.sh, mu_sims_intron.sh, mu_sims_random.sh files for submitting all jobs to Slurm. Run \*\_sh.py files and then \*.sh files to output simulation statistics to results/simulations/.
+- mu_sims_exon_sh.py, mu_sims_intron_sh.py, mu_sims_random_sh.py are used to generate Slurm job files that partition simulation iterations into many jobs in scripts/temp_scripts/, and also generate mu_sims_exon.sh, mu_sims_intron.sh, mu_sims_random.sh files for submitting all jobs to Slurm. Run \*\_sh.py files and then \*.sh files to output simulation statistics to results/simulations/.
 
 - mu_sims_random_scaled_0.py, mu_sims_random_scaled_50.py, mu_sims_random_scaled_100.py, mu_sims_random_scaled_200.py, mu_sims_random_scaled_0_sh.py, mu_sims_random_scaled_50_sh.py, mu_sims_random_scaled_100_sh.py, mu_sims_random_scaled_200_sh.py are variations on the above mu_sims_random.py and mu_sims_random_sh.py scripts used to generate results for varying levels of mutational bias. Run \*\_sh.py files and then \*.sh files to output simulation statistics to results/simulations/.
 
