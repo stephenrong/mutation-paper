@@ -6,7 +6,7 @@ Custom scripts written by Stephen Rong (Fairbrother Lab, Brown University). Have
 
 ### Contents:
 
-data/ folder contains all required data files for performing simulations and supporting files for plotting results, with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
+data/ folder contains all required data files for performing simulations and supporting data for plotting results, with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can instead be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
 
 results/ folder contains placeholder directories for simulations and figures.
 
@@ -30,8 +30,3 @@ Python (>=2.7.14), with NumPy (>=1.14.2), pandas (>=0.22.0), and Biopython (>=1.
 R (>=3.4.4), with tidyverse (>=1.2.1), ggthemr (>=1.1.0), patchwork (>=0.0.1), biomaRt (>=2.34.2), seqinr (>=3.4-5), and SDMTools (>=1.1-221)
 
 Simulations were performed on a HPC cluster running Slurm. Figures were generated on a MacBook Pro (Early 2015) running High Sierra (10.13.1).
-
-### License:
-
-TBD
-
