@@ -1,6 +1,6 @@
 # mutation-paper
 
-Scripts for performing and analyzing evolutionary simulations in manuscript titled "Exonic splicing enhancers are highly mutable and maintained by selection on the protein code" by Stephen Rong\*, Christy L. Rhine\*, Jing Wang, Kamil J. Cygan, Luke Buerer, and William G. Fairbrother (\*contributed equally to this work). Simulations are initialized with either random sequences or human exonic sequences evolved under mutation rate profiles with varying levels of mutational bias and purifying selection. Details of simulations are described in manuscript.
+Scripts for performing and analyzing evolutionary simulations in manuscript titled "Mutational bias and the co-evolution of protein and splicing code" by Stephen Rong\*, Christy L. Rhine\*, Jing Wang, Kamil J. Cygan, Luke Buerer, and William G. Fairbrother (\*contributed equally to this work). Simulations are initialized with either random sequences or human exonic sequences evolved under mutation rate profiles with varying levels of mutational bias and purifying selection. Details of simulations are described in manuscript.
 
 Custom scripts written by Stephen Rong (Fairbrother Lab, Brown University). Have questions? Contact stephen[underscore]rong[at]brown[dot]edu or post a git issue.
 
