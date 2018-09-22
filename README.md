@@ -18,7 +18,7 @@ scripts/ contains the following:
 
 - mu_sims_random.py, mu_sims_exon.py, mu_sims_intron.py specify the simulations initialized with random sequences, human exonic sequences, and human intronic sequences (only used to compute genome-wide means for introns), respectively.
 
-- mu_sims_exon_sh.py, mu_sims_intron_sh.py, mu_sims_random_sh.py are used to generate Slurm job files in scripts/temp_scripts/ that split runs into many jobs, and also to generate mu_sims_exon.sh, mu_sims_intron.sh, mu_sims_random.sh for submitting jobs to Slurm. Run \*\_sh.py files and then \*.sh files to output simulations to results/simulations/.
+- mu_sims_exon_sh.py, mu_sims_intron_sh.py, mu_sims_random_sh.py are used to generate Slurm job files in scripts/temp_scripts/ that split runs into many jobs, and also to generate mu_sims_exon.sh, mu_sims_intron.sh, mu_sims_random.sh for submitting jobs. Run \*\_sh.py files and then \*.sh files to output simulations to results/simulations/.
 
 - mu_sims_random_scaled_0.py, mu_sims_random_scaled_50.py, mu_sims_random_scaled_100.py, mu_sims_random_scaled_200.py, mu_sims_random_scaled_0_sh.py, mu_sims_random_scaled_50_sh.py, mu_sims_random_scaled_100_sh.py, mu_sims_random_scaled_200_sh.py are variations on the above mu_sims_random.py and mu_sims_random_sh.py used to generate results for varying levels of mutational bias. Run \*\_sh.py files and then \*.sh files to output simulations to results/simulations/.
 
