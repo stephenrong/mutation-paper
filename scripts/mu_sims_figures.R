@@ -761,6 +761,8 @@ random_scaled_var <- random_scaled_all %>%
   group_by(mut_scaled, scaling_factor, constr_cond) %>% 
   summarise(prop_var=var(prop)) %>% ungroup()
 write_tsv(random_scaled_all, "../results/figures/random_sims-mut_bias-kmers2_motif_var.txt")
+random_kmers_temp_thresh <- read_tsv("../results/figures/random_sims-random_kmers_temp_thresh.txt")
+random_kmers_temp_thresh <- left_join(dplyr::rename(random_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), random_scaled_var)
 
 ggplot(random_scaled_var, 
        aes(x=mut_scaled, y=prop_var, color=constr_cond, linetype=as.factor(scaling_factor))) + plot_text_alt + 
@@ -769,7 +771,8 @@ ggplot(random_scaled_var,
   guides(color=guide_legend(order=-1)) + 
   scale_linetype_discrete("Mutational bias") + 
   facet_wrap(~constr_cond) + theme(strip.text.x = element_blank()) + 
-  theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm"))
+  theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm")) + 
+  geom_point(data=random_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=prop_var), color="red")
 ggsave("../results/figures/random_sims-mut_bias-kmers2_simsall_prop_var.pdf", scale=plot_scale_alt)
 
 # proportion of CpG
@@ -816,6 +819,8 @@ random_scaled_var <- random_scaled_all %>%
   group_by(mut_scaled, scaling_factor, constr_cond) %>% 
   summarise(prop_var=var(prop)) %>% ungroup()
 write_tsv(random_scaled_all, "../results/figures/random_sims-mut_bias-kmers3_motif_var.txt")
+random_kmers_temp_thresh <- read_tsv("../results/figures/random_sims-random_kmers_temp_thresh.txt")
+random_kmers_temp_thresh <- left_join(dplyr::rename(random_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), random_scaled_var)
 
 ggplot(random_scaled_var, 
        aes(x=mut_scaled, y=prop_var, color=constr_cond, linetype=as.factor(scaling_factor))) + plot_text_alt + 
@@ -824,7 +829,8 @@ ggplot(random_scaled_var,
   guides(color=guide_legend(order=-1)) + 
   scale_linetype_discrete("Mutational bias") + 
   facet_wrap(~constr_cond) + theme(strip.text.x = element_blank()) + 
-  theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm"))
+  theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm")) + 
+  geom_point(data=random_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=prop_var), color="red")
 ggsave("../results/figures/random_sims-mut_bias-kmers3_simsall_prop_var.pdf", scale=plot_scale_alt)
  
 # kmers4
@@ -860,6 +866,8 @@ random_scaled_var <- random_scaled_all %>%
   group_by(mut_scaled, scaling_factor, constr_cond) %>% 
   summarise(prop_var=var(prop)) %>% ungroup()
 write_tsv(random_scaled_all, "../results/figures/random_sims-mut_bias-kmers4_motif_var.txt")
+random_kmers_temp_thresh <- read_tsv("../results/figures/random_sims-random_kmers_temp_thresh.txt")
+random_kmers_temp_thresh <- left_join(dplyr::rename(random_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), random_scaled_var)
 
 ggplot(random_scaled_var, 
        aes(x=mut_scaled, y=prop_var, color=constr_cond, linetype=as.factor(scaling_factor))) + plot_text_alt + 
@@ -868,7 +876,8 @@ ggplot(random_scaled_var,
   guides(color=guide_legend(order=-1)) + 
   scale_linetype_discrete("Mutational bias") + 
   facet_wrap(~constr_cond) + theme(strip.text.x = element_blank()) + 
-  theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm"))
+  theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm")) + 
+  geom_point(data=random_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=prop_var), color="red")
 ggsave("../results/figures/random_sims-mut_bias-kmers4_simsall_prop_var.pdf", scale=plot_scale_alt)
 # rm(list=ls()[grepl("random_scaled", ls())])
 
