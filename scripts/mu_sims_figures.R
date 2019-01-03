@@ -9,10 +9,6 @@ library(SDMTools)  # wt.sd, wt.mean
 # library(ggrepel)  # geom_text_repel
 library(DescTools  # Entropy function)
 
-# 
-# 
-# 
-
 # # # set default ggthemr
 fresh_edit <- ggthemr("fresh")$palette
 fresh_edit$text <- list(inner = '#000000', outer = '#000000')
@@ -893,7 +889,7 @@ ggsave("../results/figures/random_sims-mut_bias-kmers4_simsall_motif.pdf", scale
 random_scaled_var <- random_scaled_all %>% 
   group_by(mut_scaled, scaling_factor, constr_cond) %>% 
   summarise(prop_var=var(prop)) %>% ungroup()
-write_tsv(random_scaled_all, "../results/figures/random_sims-mut_bias-kmers4_motif_var.txt")
+write_tsv(random_scaled_var, "../results/figures/random_sims-mut_bias-kmers4_motif_var.txt")
 random_kmers_temp_thresh <- read_tsv("../results/figures/random_sims-random_kmers_temp_thresh.txt")
 random_kmers_temp_thresh <- left_join(dplyr::rename(random_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), random_scaled_var)
 
@@ -911,7 +907,7 @@ ggsave("../results/figures/random_sims-mut_bias-kmers4_simsall_prop_var.pdf", sc
 random_scaled_ent <- random_scaled_all %>% 
   group_by(mut_scaled, scaling_factor, constr_cond) %>% 
   summarise(prop_ent=Entropy(prop)) %>% ungroup()
-write_tsv(random_scaled_all, "../results/figures/random_sims-mut_bias-kmers4_motif_ent.txt")
+write_tsv(random_scaled_ent, "../results/figures/random_sims-mut_bias-kmers4_motif_ent.txt")
 random_kmers_temp_thresh <- read_tsv("../results/figures/random_sims-random_kmers_temp_thresh.txt")
 random_kmers_temp_thresh <- left_join(dplyr::rename(random_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), random_scaled_ent)
 
