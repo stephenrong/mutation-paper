@@ -7,6 +7,11 @@ library(SDMTools)  # wt.sd, wt.mean
 # packages not necessary for paper figs
 # library(scatterplot3d)  # 3d scatterplot
 # library(ggrepel)  # geom_text_repel
+library(DescTools  # Entropy function)
+
+# 
+# 
+# 
 
 # # # set default ggthemr
 fresh_edit <- ggthemr("fresh")$palette
@@ -202,33 +207,34 @@ random_scaled_100_kmers <- process_kmers(random_scaled_temp)
 random_scaled_temp <- process_file(random_scaled_200_track_kmers3)
 random_scaled_200_kmers <- process_kmers(random_scaled_temp)
 random_scaled_all <- rbind(
-  random_scaled_0_kmers %>% mutate(scaling_factor="0.0 (None)"), 
-  random_scaled_50_kmers %>% mutate(scaling_factor="0.5"), 
-  random_scaled_100_kmers %>% mutate(scaling_factor="1.0 (Original)"), 
+  random_scaled_0_kmers %>% mutate(scaling_factor="0.0 (None)"),
+  random_scaled_50_kmers %>% mutate(scaling_factor="0.5"),
+  random_scaled_100_kmers %>% mutate(scaling_factor="1.0 (Original)"),
   random_scaled_200_kmers %>% mutate(scaling_factor="2.0")
 )
 
-random_kmers_temp <- random_scaled_all %>% 
-  group_by(constr_cond, motif, scaling_factor) %>% 
-  mutate(prop.diff = lead(prop)-(prop)) %>% 
+random_kmers_temp <- random_scaled_all %>%
+  group_by(constr_cond, motif, scaling_factor) %>%
+  mutate(prop.diff = lead(prop)-(prop)) %>%
   mutate(prop.diff.diff = lead(prop.diff)-(prop.diff))
 write_tsv(random_kmers_temp, "../results/figures/random_sims-kmers3-abs_delta_motif_full.txt")
 
-random_kmers_temp_mean <- random_kmers_temp %>% 
-  group_by(constr_cond, mut_scaled, scaling_factor) %>% 
+random_kmers_temp_mean <- random_kmers_temp %>%
+  group_by(constr_cond, mut_scaled, scaling_factor) %>%
   summarise(prop.diff.mean=mean(abs(prop.diff)), prop.diff.sd=sd(abs(prop.diff)))
 
-ggplot(random_kmers_temp) + plot_text + 
-  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + 
-  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") + 
-  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("3-mer freq(t+0.2)-freq(t)") + 
+ggplot(random_kmers_temp) + plot_text +
+  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) +
+  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") +
+  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("3-mer freq(t+0.2)-freq(t)") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + theme(aspect.ratio=0.4)
+
 ggsave("../results/figures/random_sims-kmers3-abs_delta_motif_full.pdf", scale=plot_scale_alt)
 
-ggplot(random_kmers_temp) + plot_text + 
-  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + scale_x_sqrt() + 
-  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") + 
-  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("3-mer freq(t+0.2)-freq(t)") + 
+ggplot(random_kmers_temp) + plot_text +
+  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + scale_x_sqrt() +
+  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") +
+  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("3-mer freq(t+0.2)-freq(t)") +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) + theme(aspect.ratio=0.4)
 ggsave("../results/figures/random_sims-kmers3-abs_delta_motif_full_sqrt.pdf", scale=plot_scale_alt)
 
@@ -242,108 +248,108 @@ random_scaled_100_kmers <- process_kmers(random_scaled_temp)
 random_scaled_temp <- process_file(random_scaled_200_track_kmers4)
 random_scaled_200_kmers <- process_kmers(random_scaled_temp)
 random_scaled_all <- rbind(
-  random_scaled_0_kmers %>% mutate(scaling_factor="0.0 (None)"), 
-  random_scaled_50_kmers %>% mutate(scaling_factor="0.5"), 
-  random_scaled_100_kmers %>% mutate(scaling_factor="1.0 (Original)"), 
+  random_scaled_0_kmers %>% mutate(scaling_factor="0.0 (None)"),
+  random_scaled_50_kmers %>% mutate(scaling_factor="0.5"),
+  random_scaled_100_kmers %>% mutate(scaling_factor="1.0 (Original)"),
   random_scaled_200_kmers %>% mutate(scaling_factor="2.0")
 )
 
-random_kmers_temp <- random_scaled_all %>% 
-  group_by(constr_cond, motif, scaling_factor) %>% 
-  mutate(prop.diff = lead(prop)-(prop)) %>% 
+random_kmers_temp <- random_scaled_all %>%
+  group_by(constr_cond, motif, scaling_factor) %>%
+  mutate(prop.diff = lead(prop)-(prop)) %>%
   mutate(prop.diff.diff = lead(prop.diff)-(prop.diff))
 write_tsv(random_kmers_temp, "../results/figures/random_sims-kmers4-abs_delta_motif_full.txt")
 
-random_kmers_temp_mean <- random_kmers_temp %>% 
-  group_by(constr_cond, mut_scaled, scaling_factor) %>% 
-  summarise(prop.diff.mean=mean(abs(prop.diff)), 
+random_kmers_temp_mean <- random_kmers_temp %>%
+  group_by(constr_cond, mut_scaled, scaling_factor) %>%
+  summarise(prop.diff.mean=mean(abs(prop.diff)),
             prop.diff.sd=sd(abs(prop.diff)))
 
-random_kmers_temp_temp <- random_kmers_temp_mean %>% 
+random_kmers_temp_temp <- random_kmers_temp_mean %>%
   filter(mut_scaled>8)
-ggplot(random_kmers_temp_temp) + plot_text + 
-  geom_violin(aes(x=interaction(scaling_factor, constr_cond), 
-    y=prop.diff.mean, color=constr_cond, linetype=scaling_factor)) + 
-  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
-  ylab("4-mer mean(abs(freq(t+0.2)-freq(t))) (>8.0 mpb)") + theme(aspect.ratio=1) + 
+ggplot(random_kmers_temp_temp) + plot_text +
+  geom_violin(aes(x=interaction(scaling_factor, constr_cond),
+    y=prop.diff.mean, color=constr_cond, linetype=scaling_factor)) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  ylab("4-mer mean(abs(freq(t+0.2)-freq(t))) (>8.0 mpb)") + theme(aspect.ratio=1) +
   scale_color_discrete(legend_constraint) + scale_linetype_discrete("Mutational bias")
 ggsave("../results/figures/random_sims-kmers4-violin_equilibrium.pdf", scale=plot_scale)
 
-random_kmers_temp_mean <- random_kmers_temp_mean %>% 
+random_kmers_temp_mean <- random_kmers_temp_mean %>%
   mutate(prop.diff.thresh=(prop.diff.mean<=2.5e-5))
-random_kmers_temp_thresh <- random_kmers_temp_mean %>% 
-  group_by(constr_cond, scaling_factor) %>% 
-  filter(prop.diff.thresh) %>% 
+random_kmers_temp_thresh <- random_kmers_temp_mean %>%
+  group_by(constr_cond, scaling_factor) %>%
+  filter(prop.diff.thresh) %>%
   summarise(prop.diff.xthresh=first(mut_scaled))
 write_tsv(random_kmers_temp_thresh, "../results/figures/random_sims-random_kmers_temp_thresh.txt")
 
-ggplot(random_kmers_temp) + plot_text + 
-  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + 
-  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") + 
-  geom_vline(data=random_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") + 
-  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") + 
+ggplot(random_kmers_temp) + plot_text +
+  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) +
+  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") +
+  geom_vline(data=random_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") +
+  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") +
   theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) + ylim(c(-0.006, 0.006)) + theme(aspect.ratio=0.4)
 ggsave("../results/figures/random_sims-kmers4-abs_delta_motif_full.pdf", scale=plot_scale_alt)
 
-ggplot(random_kmers_temp) + plot_text + 
-  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + scale_x_sqrt() + 
-  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") + 
-  geom_vline(data=random_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") + 
-  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") + 
+ggplot(random_kmers_temp) + plot_text +
+  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + scale_x_sqrt() +
+  geom_line(data=random_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") +
+  geom_vline(data=random_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") +
+  facet_grid(rows=vars(scaling_factor), cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") +
   theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) + ylim(c(-0.006, 0.006)) + theme(aspect.ratio=0.4)
 ggsave("../results/figures/random_sims-kmers4-abs_delta_motif_full_sqrt.pdf", scale=plot_scale_alt)
 
 # exonic
 exon_kmers_all <- process_file(exon_track_kmers4)
 exon_kmers_mean <- process_kmers(exon_kmers_all)
-exon_kmers_temp <- exon_kmers_mean %>% 
-  group_by(constr_cond, motif) %>% 
-  mutate(prop.diff = lead(prop)-(prop)) %>% 
+exon_kmers_temp <- exon_kmers_mean %>%
+  group_by(constr_cond, motif) %>%
+  mutate(prop.diff = lead(prop)-(prop)) %>%
   mutate(prop.diff.diff = lead(prop.diff)-(prop.diff))
 write_tsv(exon_kmers_temp, "../results/figures/exon_sims-kmers4-abs_delta_motif_full.txt")
 
-exon_kmers_temp_mean <- exon_kmers_temp %>% 
-  group_by(constr_cond, mut_scaled) %>% 
-  summarise(prop.diff.mean=mean(abs(prop.diff)), 
+exon_kmers_temp_mean <- exon_kmers_temp %>%
+  group_by(constr_cond, mut_scaled) %>%
+  summarise(prop.diff.mean=mean(abs(prop.diff)),
             prop.diff.sd=sd(abs(prop.diff)))
 
-exon_kmers_temp_temp <- exon_kmers_temp_mean %>% 
+exon_kmers_temp_temp <- exon_kmers_temp_mean %>%
   filter(mut_scaled>8)
-ggplot(exon_kmers_temp_temp) + plot_text + 
-  geom_violin(aes(x=constr_cond, y=prop.diff.mean, color=constr_cond)) + 
-  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) + 
-  ylab("4-mer mean(abs(freq(t+0.2)-freq(t))) (>8.0 mpb)") + theme(aspect.ratio=1) + 
+ggplot(exon_kmers_temp_temp) + plot_text +
+  geom_violin(aes(x=constr_cond, y=prop.diff.mean, color=constr_cond)) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  ylab("4-mer mean(abs(freq(t+0.2)-freq(t))) (>8.0 mpb)") + theme(aspect.ratio=1) +
   scale_color_discrete(legend_constraint) + scale_linetype_discrete("Mutational bias")
 ggsave("../results/figures/exon_sims-kmers4-violin_equilibrium.pdf", scale=plot_scale)
 
-exon_thresh_cutoffs <- exon_kmers_temp_mean %>% 
-  filter(mut_scaled>8) %>% 
-  group_by(constr_cond) %>% 
+exon_thresh_cutoffs <- exon_kmers_temp_mean %>%
+  filter(mut_scaled>8) %>%
+  group_by(constr_cond) %>%
   summarise(thresh_cutoff=2.5e-10)
-exon_kmers_temp_mean <- exon_kmers_temp_mean %>% 
-  full_join(exon_thresh_cutoffs) %>% 
+exon_kmers_temp_mean <- exon_kmers_temp_mean %>%
+  full_join(exon_thresh_cutoffs) %>%
   mutate(prop.diff.thresh=prop.diff.mean<=thresh_cutoff)
-exon_kmers_temp_mean <- exon_kmers_temp_mean %>% 
+exon_kmers_temp_mean <- exon_kmers_temp_mean %>%
   mutate(prop.diff.thresh=(prop.diff.mean<=2.5e-5))
-exon_kmers_temp_thresh <- exon_kmers_temp_mean %>% 
-  group_by(constr_cond) %>% 
-  filter(prop.diff.thresh) %>% 
+exon_kmers_temp_thresh <- exon_kmers_temp_mean %>%
+  group_by(constr_cond) %>%
+  filter(prop.diff.thresh) %>%
   summarise(prop.diff.xthresh=first(mut_scaled))
 write_tsv(exon_kmers_temp_thresh, "../results/figures/exon_sims-random_kmers_temp_thresh.txt")
 
-ggplot(exon_kmers_temp) + plot_text + 
-  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + 
-  geom_line(data=exon_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") + 
-  geom_vline(data=exon_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") + 
-  facet_grid(cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") + 
+ggplot(exon_kmers_temp) + plot_text +
+  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) +
+  geom_line(data=exon_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") +
+  geom_vline(data=exon_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") +
+  facet_grid(cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") +
   theme(axis.text.x = element_text(angle=90, vjust=0.5, hjust=1)) + ylim(c(-0.003, 0.003)) + theme(aspect.ratio=0.6)
 ggsave("../results/figures/exon_sims-kmers4-abs_delta_motif_full.pdf", scale=plot_scale)
 
-ggplot(exon_kmers_temp) + plot_text + 
-  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + scale_x_sqrt() + 
-  geom_line(data=exon_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") + 
-  geom_vline(data=exon_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") + 
-  facet_grid(cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") + 
+ggplot(exon_kmers_temp) + plot_text +
+  geom_line(aes(x=mut_scaled, y=prop.diff, group=motif)) + scale_x_sqrt() +
+  geom_line(data=exon_kmers_temp_mean, aes(x=mut_scaled, y=prop.diff.mean), color="red") +
+  geom_vline(data=exon_kmers_temp_thresh, aes(xintercept=prop.diff.xthresh), color="red", linetype="dashed") +
+  facet_grid(cols=vars(constr_cond)) + xlab("Mutations per base") + ylab("4-mer freq(t+0.2)-freq(t)") +
   theme(axis.text.x=element_text(angle=90, vjust=0.5, hjust=1)) + ylim(c(-0.003, 0.003)) + theme(aspect.ratio=0.6)
 ggsave("../results/figures/exon_sims-kmers4-abs_delta_motif_full_sqrt.pdf", scale=plot_scale)
 
@@ -355,79 +361,79 @@ write_tsv(exon_mut_mean, "../results/figures/exon_sims-mut_esr_mean.txt")
 intron_mut <- process_file(intron_track_mut)
 write_tsv(intron_mut, "../results/figures/intron_sims-mut_esr_all.txt")
 
-ggplot(filter(exon_mut, mut_scaled==max(mut_scaled)), 
-       aes(x=constr_cond, y=mut_mean, color=constr_cond)) + plot_text + 
-  geom_violin() + xlab(legend_constraint) + ylab("Final ERM score") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1)) + 
-  geom_violin(data=filter(intron_mut, mut_scaled==0 & constr_cond=="Non-coding"), 
-              mapping=aes(x=3, y=mut_mean, linetype="Introns"), color="#65ADC2") + 
-  geom_violin(data=filter(exon_mut, mut_scaled==0 & constr_cond=="Non-coding"), 
-              mapping=aes(x=4, y=mut_mean, linetype="Exons"), color="#000000") + 
-  scale_linetype_manual(name="Genomic type", values=c(2, 2), 
-                        guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + 
+ggplot(filter(exon_mut, mut_scaled==max(mut_scaled)),
+       aes(x=constr_cond, y=mut_mean, color=constr_cond)) + plot_text +
+  geom_violin() + xlab(legend_constraint) + ylab("Final ERM score") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1)) +
+  geom_violin(data=filter(intron_mut, mut_scaled==0 & constr_cond=="Non-coding"),
+              mapping=aes(x=3, y=mut_mean, linetype="Introns"), color="#65ADC2") +
+  geom_violin(data=filter(exon_mut, mut_scaled==0 & constr_cond=="Non-coding"),
+              mapping=aes(x=4, y=mut_mean, linetype="Exons"), color="#000000") +
+  scale_linetype_manual(name="Genomic type", values=c(2, 2),
+                        guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) +
   theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) + theme(aspect.ratio=1)
 ggsave("../results/figures/exon_sims-mut_violin.pdf", scale=plot_scale)
 
-ggplot(filter(exon_mut, mut_scaled==max(mut_scaled)), 
-       aes(x=constr_cond, y=mut_mean, color=constr_cond)) + plot_text + 
-  geom_violin() + xlab(legend_constraint) + ylab("Final ERM score") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1)) + 
-  geom_violin(data=filter(intron_mut, mut_scaled==0 & constr_cond=="Non-coding"), 
-              mapping=aes(x=3, y=mut_mean, linetype="Introns"), color="#65ADC2") + 
-  geom_violin(data=filter(exon_mut, mut_scaled==0 & constr_cond=="Non-coding"), 
-              mapping=aes(x=4, y=mut_mean, linetype="Exons"), color="#000000") + 
-  scale_linetype_manual(name="Genomic type", values=c(2, 2), 
-                        guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + 
+ggplot(filter(exon_mut, mut_scaled==max(mut_scaled)),
+       aes(x=constr_cond, y=mut_mean, color=constr_cond)) + plot_text +
+  geom_violin() + xlab(legend_constraint) + ylab("Final ERM score") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1)) +
+  geom_violin(data=filter(intron_mut, mut_scaled==0 & constr_cond=="Non-coding"),
+              mapping=aes(x=3, y=mut_mean, linetype="Introns"), color="#65ADC2") +
+  geom_violin(data=filter(exon_mut, mut_scaled==0 & constr_cond=="Non-coding"),
+              mapping=aes(x=4, y=mut_mean, linetype="Exons"), color="#000000") +
+  scale_linetype_manual(name="Genomic type", values=c(2, 2),
+                        guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) +
   theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) + theme(aspect.ratio=1)
 ggsave("../results/figures/exon_sims-mut_violin.pdf", scale=plot_scale)
 
-ggplot(filter(exon_mut, mut_scaled==max(mut_scaled)), 
-       aes(x=constr_cond, y=esr_mean, color=constr_cond)) + plot_text + 
-  geom_violin() + xlab(legend_constraint) + ylab("Final EI score") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1)) + 
-  geom_violin(data=filter(intron_mut, mut_scaled==0 & constr_cond=="Non-coding"), 
-              mapping=aes(x=3, y=esr_mean, linetype="Introns"), color="#65ADC2") + 
-  geom_violin(data=filter(exon_mut, mut_scaled==0 & constr_cond=="Non-coding"), 
-              mapping=aes(x=4, y=esr_mean, linetype="Exons"), color="#000000") + 
-  scale_linetype_manual(name="Genomic type", values=c(2, 2), 
-                        guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + 
+ggplot(filter(exon_mut, mut_scaled==max(mut_scaled)),
+       aes(x=constr_cond, y=esr_mean, color=constr_cond)) + plot_text +
+  geom_violin() + xlab(legend_constraint) + ylab("Final EI score") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1)) +
+  geom_violin(data=filter(intron_mut, mut_scaled==0 & constr_cond=="Non-coding"),
+              mapping=aes(x=3, y=esr_mean, linetype="Introns"), color="#65ADC2") +
+  geom_violin(data=filter(exon_mut, mut_scaled==0 & constr_cond=="Non-coding"),
+              mapping=aes(x=4, y=esr_mean, linetype="Exons"), color="#000000") +
+  scale_linetype_manual(name="Genomic type", values=c(2, 2),
+                        guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) +
   theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) + theme(aspect.ratio=1)
 ggsave("../results/figures/exon_sims-esr_violin.pdf", scale=plot_scale)
 
 # variance in difference in ei score
 exon_mut_var <- as_tibble(cbind(
-  filter(exon_mut, mut_scaled==0 & constr_cond=="Protein-coding")$run_number, 
-  filter(exon_mut, mut_scaled==0 & constr_cond=="Protein-coding")$esr_mean - 
-    filter(exon_mut, mut_scaled==max(mut_scaled) & constr_cond=="Non-coding")$esr_mean, 
-  filter(exon_mut, mut_scaled==max(mut_scaled) & constr_cond=="Protein-coding")$esr_mean - 
+  filter(exon_mut, mut_scaled==0 & constr_cond=="Protein-coding")$run_number,
+  filter(exon_mut, mut_scaled==0 & constr_cond=="Protein-coding")$esr_mean -
+    filter(exon_mut, mut_scaled==max(mut_scaled) & constr_cond=="Non-coding")$esr_mean,
+  filter(exon_mut, mut_scaled==max(mut_scaled) & constr_cond=="Protein-coding")$esr_mean -
     filter(exon_mut, mut_scaled==max(mut_scaled) & constr_cond=="Non-coding")$esr_mean))
 names(exon_mut_var) <- c("run_number", "real_neutral", "identity_neutral")
-exon_mut_var <- exon_mut_var %>% 
+exon_mut_var <- exon_mut_var %>%
   mutate(ei_protein_prop=identity_neutral/real_neutral)
-ggplot(exon_mut_var, aes(ei_protein_prop)) + plot_text + 
-  geom_density() + xlim(c(0, 1)) + theme(aspect.ratio=1) + 
+ggplot(exon_mut_var, aes(ei_protein_prop)) + plot_text +
+  geom_density() + xlim(c(0, 1)) + theme(aspect.ratio=1) +
   xlab("Protein-coding - Non-coding)/(Real - Non-coding)")
 ggsave("../results/figures/exon_sims-esr_protein_prop.pdf", scale=plot_scale)
 mean(exon_mut_var$ei_protein_prop)
 median(exon_mut_var$ei_protein_prop)
 
 # mean traj in mut rate and ei score
-exon_mean <- exon_mut %>% 
-  filter(mut_scaled==0, constr_cond=="Non-coding") %>% 
-  summarise(mut_sdw=wt.sd(mut_mean, seq_length), 
-            esr_sdw=wt.sd(esr_mean, seq_length), 
+exon_mean <- exon_mut %>%
+  filter(mut_scaled==0, constr_cond=="Non-coding") %>%
+  summarise(mut_sdw=wt.sd(mut_mean, seq_length),
+            esr_sdw=wt.sd(esr_mean, seq_length),
             mut_mean=wt.mean(mut_mean, seq_length),
             esr_mean=wt.mean(esr_mean, seq_length))
 write_tsv(exon_mean, "../results/figures/exon_sims-exon_mean.txt")
 
 intron_mut <- process_file(intron_track_mut)
-intron_mean <- intron_mut %>% 
-  filter(mut_scaled==0, constr_cond=="Non-coding") %>% 
-  summarise(mut_sdw=wt.sd(mut_mean, seq_length), 
-            esr_sdw=wt.sd(esr_mean, seq_length), 
+intron_mean <- intron_mut %>%
+  filter(mut_scaled==0, constr_cond=="Non-coding") %>%
+  summarise(mut_sdw=wt.sd(mut_mean, seq_length),
+            esr_sdw=wt.sd(esr_mean, seq_length),
             mut_mean=wt.mean(mut_mean, seq_length),
             esr_mean=wt.mean(esr_mean, seq_length))
 write_tsv(intron_mean, "../results/figures/intron_sims-intron_mean.txt")
@@ -435,31 +441,31 @@ exon_kmers_temp_thresh <- read_tsv("../results/figures/exon_sims-random_kmers_te
 exon_kmers_temp_thresh <- left_join(dplyr::rename(exon_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), exon_mut_mean)
 
 # https://stackoverflow.com/questions/39119917/how-to-add-a-legend-to-hline
-plot_temp_a <- ggplot(exon_mut_mean, aes(x=mut_scaled, y=mut_mean, color=constr_cond)) + plot_text + 
-  geom_line() + xlab("Mutations per base") + ylab("Mean ERM rate") + 
-  geom_hline(aes(yintercept=intron_mean$mut_mean, linetype="Introns"), color="#65ADC2") + 
-  geom_hline(aes(yintercept=exon_mean$mut_mean, linetype="Exons"), color="#000000") + 
-  scale_color_discrete(legend_constraint) + 
-  geom_point(data=exon_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=mut_mean), color="red") + 
-  guides(color=guide_legend(order=-1), fill=FALSE) + 
-  scale_linetype_manual(name="Genomic mean", values=c(2, 2), labels=c("Introns", "Exons"), 
+plot_temp_a <- ggplot(exon_mut_mean, aes(x=mut_scaled, y=mut_mean, color=constr_cond)) + plot_text +
+  geom_line() + xlab("Mutations per base") + ylab("Mean ERM rate") +
+  geom_hline(aes(yintercept=intron_mean$mut_mean, linetype="Introns"), color="#65ADC2") +
+  geom_hline(aes(yintercept=exon_mean$mut_mean, linetype="Exons"), color="#000000") +
+  scale_color_discrete(legend_constraint) +
+  geom_point(data=exon_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=mut_mean), color="red") +
+  guides(color=guide_legend(order=-1), fill=FALSE) +
+  scale_linetype_manual(name="Genomic mean", values=c(2, 2), labels=c("Introns", "Exons"),
                         guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + theme(aspect.ratio=1)
 plot_temp_a
 ggsave("../results/figures/exon_sims-mut_mean.pdf", scale=plot_scale)
 
-plot_temp_b <- ggplot(exon_mut_mean, aes(x=mut_scaled, y=esr_mean, color=constr_cond)) + plot_text + 
-  geom_line() + xlab("Mutations per base") + ylab("Mean EI score") + 
-  geom_hline(aes(yintercept=intron_mean$esr_mean, linetype="Introns"), color="#65ADC2") + 
-  geom_hline(aes(yintercept=exon_mean$esr_mean, linetype="Exons"), color="#000000") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1), fill=FALSE) + 
-  geom_point(data=exon_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=esr_mean), color="red") + 
-  scale_linetype_manual(name="Genomic mean", values=c(2, 2), labels=c("Introns", "Exons"), 
+plot_temp_b <- ggplot(exon_mut_mean, aes(x=mut_scaled, y=esr_mean, color=constr_cond)) + plot_text +
+  geom_line() + xlab("Mutations per base") + ylab("Mean EI score") +
+  geom_hline(aes(yintercept=intron_mean$esr_mean, linetype="Introns"), color="#65ADC2") +
+  geom_hline(aes(yintercept=exon_mean$esr_mean, linetype="Exons"), color="#000000") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1), fill=FALSE) +
+  geom_point(data=exon_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=esr_mean), color="red") +
+  scale_linetype_manual(name="Genomic mean", values=c(2, 2), labels=c("Introns", "Exons"),
                         guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + theme(aspect.ratio=1)
 plot_temp_b
 ggsave("../results/figures/exon_sims-esr_mean.pdf", scale=plot_scale)
 
-plot_temp <- plot_temp_a + plot_text_alt + guides(color=FALSE, linetype=FALSE) + theme(aspect.ratio=2) + 
+plot_temp <- plot_temp_a + plot_text_alt + guides(color=FALSE, linetype=FALSE) + theme(aspect.ratio=2) +
   plot_temp_b + plot_text_alt + theme(aspect.ratio=2)
 plot_temp
 ggsave("../results/figures/exon_sims-mut_mean-esr_mean.pdf", plot=plot_temp, scale=plot_scale_alt_2)
@@ -478,112 +484,112 @@ intron_CpG <- filter(intron_kmers_mean, CpG, mut_scaled==0, constr_cond=="Non-co
 write_tsv(exon_CpG, "../results/figures/exon_sims-exon_CpG.txt")
 write_tsv(intron_CpG, "../results/figures/exon_sims-intron_CpG.txt")
 
-ggplot(filter(exon_kmers_mean, CpG), 
-       aes(x=mut_scaled, y=prop, group=interaction(constr_cond, motif), color=constr_cond)) + plot_text + 
-  geom_line() + xlab("Mutations per base") + ylab("Mean CpG content") + 
-  geom_hline(aes(yintercept=intron_CpG$prop, linetype="Exons"), color="#65ADC2") + 
-  geom_hline(aes(yintercept=exon_CpG$prop, linetype="Introns"), color="#000000") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1)) + 
-  scale_linetype_manual(name="Genomic mean", values=c(2, 2), 
+ggplot(filter(exon_kmers_mean, CpG),
+       aes(x=mut_scaled, y=prop, group=interaction(constr_cond, motif), color=constr_cond)) + plot_text +
+  geom_line() + xlab("Mutations per base") + ylab("Mean CpG content") +
+  geom_hline(aes(yintercept=intron_CpG$prop, linetype="Exons"), color="#65ADC2") +
+  geom_hline(aes(yintercept=exon_CpG$prop, linetype="Introns"), color="#000000") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1)) +
+  scale_linetype_manual(name="Genomic mean", values=c(2, 2),
                         guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + theme(aspect.ratio=1)
 ggsave("../results/figures/exon_sims-CpG_mean.pdf", scale=plot_scale)
 
 # # # mut and esr motif correlations
-exon_motif <- exon_kmers %>% 
-  gather(motif, count, -c(1:8)) %>% 
-  group_by(constr_cond, mut_scaled) %>% 
-  mutate(prop=count/sum(count)) %>% 
+exon_motif <- exon_kmers %>%
+  gather(motif, count, -c(1:8)) %>%
+  group_by(constr_cond, mut_scaled) %>%
+  mutate(prop=count/sum(count)) %>%
   mutate(CpG=grepl("CG", motif)) %>% ungroup()
 
 exon_motif <- left_join(exon_motif, exon_mut) %>% drop_na()
-exon_motif_corr <- exon_motif %>% 
-  group_by(motif, constr_cond) %>% 
-  summarise(cor_mut=cor(prop, mut_mean, method="pearson"), 
+exon_motif_corr <- exon_motif %>%
+  group_by(motif, constr_cond) %>%
+  summarise(cor_mut=cor(prop, mut_mean, method="pearson"),
             cor_esr=cor(prop, esr_mean, method="pearson"))
 write_tsv(exon_motif_corr, "../results/figures/exon_sims-mut_esr_motif_corr.txt")
 
-ggplot(exon_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text + 
-  geom_vline(xintercept=0, color="grey") + 
-  geom_hline(yintercept=0, color="grey") + 
-  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) + 
-  ylim(c(-0.15, 0.44)) + xlim(c(-0.15, 0.64)) + 
-  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) + 
+ggplot(exon_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text +
+  geom_vline(xintercept=0, color="grey") +
+  geom_hline(yintercept=0, color="grey") +
+  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) +
+  ylim(c(-0.15, 0.44)) + xlim(c(-0.15, 0.64)) +
+  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) +
   theme(aspect.ratio=1)
 ggsave("../results/figures/exon_sims-mut_esr_motif_corr.pdf", scale=plot_scale)
 
 # repeat for random sequences
 random_mut <- process_file(random_track_mut)
 random_kmers <- process_file(random_track_kmers2)
-random_motif <- random_kmers %>% 
-  gather(motif, count, -c(1:8)) %>% 
-  group_by(constr_cond, mut_scaled) %>% 
-  mutate(prop=count/sum(count)) %>% 
+random_motif <- random_kmers %>%
+  gather(motif, count, -c(1:8)) %>%
+  group_by(constr_cond, mut_scaled) %>%
+  mutate(prop=count/sum(count)) %>%
   mutate(CpG=grepl("CG", motif)) %>% ungroup()
 
 random_motif <- left_join(random_motif, random_mut) %>% drop_na()
-random_motif_corr <- random_motif %>% 
-  group_by(motif, constr_cond) %>% 
-  summarise(cor_mut=cor(prop, mut_mean, method="pearson"), 
+random_motif_corr <- random_motif %>%
+  group_by(motif, constr_cond) %>%
+  summarise(cor_mut=cor(prop, mut_mean, method="pearson"),
             cor_esr=cor(prop, esr_mean, method="pearson"))
 write_tsv(random_motif_corr, "../results/figures/random_sims-mut_esr_motif_corr.txt")
 
-ggplot(random_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text + 
-  geom_vline(xintercept=0, color="grey") + 
-  geom_hline(yintercept=0, color="grey") + 
-  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) + 
-  xlim(c(-0.6, 1.1)) + ylim(c(-0.8, 0.8)) + 
-  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) + 
+ggplot(random_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text +
+  geom_vline(xintercept=0, color="grey") +
+  geom_hline(yintercept=0, color="grey") +
+  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) +
+  xlim(c(-0.6, 1.1)) + ylim(c(-0.8, 0.8)) +
+  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) +
   theme(aspect.ratio=1)
 ggsave("../results/figures/random_sims-mut_esr_motif_corr.pdf", scale=plot_scale)
 
 # test seq length dependency
-exon_motif <- exon_motif %>% 
+exon_motif <- exon_motif %>%
   mutate(seq_length_bin=cut_number(seq_length, 6))
-exon_motif_corr <- exon_motif %>% 
-  group_by(motif, constr_cond, seq_length_bin) %>% 
-  summarise(cor_mut=cor(prop, mut_mean, method="pearson"), 
+exon_motif_corr <- exon_motif %>%
+  group_by(motif, constr_cond, seq_length_bin) %>%
+  summarise(cor_mut=cor(prop, mut_mean, method="pearson"),
             cor_esr=cor(prop, esr_mean, method="pearson"))
-ggplot(exon_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text + 
-  geom_vline(xintercept=0, color="grey") + 
-  geom_hline(yintercept=0, color="grey") + 
-  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) + 
-  ylim(c(-1.3, 1.3)) + xlim(c(-1.3, 1.3)) + 
-  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) + 
+ggplot(exon_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text +
+  geom_vline(xintercept=0, color="grey") +
+  geom_hline(yintercept=0, color="grey") +
+  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) +
+  ylim(c(-1.3, 1.3)) + xlim(c(-1.3, 1.3)) +
+  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) +
   theme(aspect.ratio=1) + facet_wrap(~seq_length_bin)
 ggsave("../results/figures/exon_sims-mut_esr_motif_corr_bin.pdf", scale=1.5)
 
 # repeat for random seq 3mers
 random_mut <- process_file(random_track_mut)
 random_kmers <- process_file(random_track_kmers3)
-random_motif <- random_kmers %>% 
-  gather(motif, count, -c(1:8)) %>% 
-  group_by(constr_cond, mut_scaled) %>% 
-  mutate(prop=count/sum(count)) %>% 
+random_motif <- random_kmers %>%
+  gather(motif, count, -c(1:8)) %>%
+  group_by(constr_cond, mut_scaled) %>%
+  mutate(prop=count/sum(count)) %>%
   mutate(CpG=grepl("CG", motif)) %>% ungroup()
 
 random_motif <- left_join(random_motif, random_mut) %>% drop_na()
-random_motif_corr <- random_motif %>% 
-  group_by(motif, constr_cond) %>% 
-  summarise(cor_mut=cor(prop, mut_mean, method="pearson"), 
+random_motif_corr <- random_motif %>%
+  group_by(motif, constr_cond) %>%
+  summarise(cor_mut=cor(prop, mut_mean, method="pearson"),
             cor_esr=cor(prop, esr_mean, method="pearson"))
 write_tsv(random_motif_corr, "../results/figures/random_sims-mut_esr_motif_corr.txt")
 
-ggplot(random_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text + 
-  geom_vline(xintercept=0, color="grey") + 
-  geom_hline(yintercept=0, color="grey") + 
-  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) + 
-  xlim(c(-0.6, 1.1)) + ylim(c(-0.8, 0.8)) + 
-  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) + 
+ggplot(random_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text +
+  geom_vline(xintercept=0, color="grey") +
+  geom_hline(yintercept=0, color="grey") +
+  geom_point() + geom_text(hjust=-0, vjust=-0.3, show.legend=FALSE) +
+  xlim(c(-0.6, 1.1)) + ylim(c(-0.8, 0.8)) +
+  labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) +
   theme(aspect.ratio=1)
 ggsave("../results/figures/random_sims-mut_esr_motif_corr_3mers.pdf", scale=plot_scale)
 
-# ggplot(random_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text + 
-#   geom_vline(xintercept=0, color="grey") + 
-#   geom_hline(yintercept=0, color="grey") + 
-#   geom_point() + geom_text_repel(hjust=-0, vjust=-0.3, show.legend=FALSE) + 
-#   xlim(c(-0.6, 1.1)) + ylim(c(-0.8, 0.8)) + 
-#   labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) + 
+# ggplot(random_motif_corr, aes(x=cor_mut, y=cor_esr, color=constr_cond, label=motif)) + plot_text +
+#   geom_vline(xintercept=0, color="grey") +
+#   geom_hline(yintercept=0, color="grey") +
+#   geom_point() + geom_text_repel(hjust=-0, vjust=-0.3, show.legend=FALSE) +
+#   xlim(c(-0.6, 1.1)) + ylim(c(-0.8, 0.8)) +
+#   labs(x="Correlation with ERM rate", y="Correlation with EI score", color=legend_constraint) +
 #   theme(aspect.ratio=1)
 # ggsave("../results/figures/random_sims-mut_esr_motif_corr_3mers_repel.pdf", scale=plot_scale)
 # exon_motif <- NULL
@@ -596,23 +602,23 @@ random_mut <- process_file(random_track_mut)
 random_mut_mean <- get_mut_mean(random_mut)
 write_tsv(random_mut_mean, "../results/figures/random_sims-mut_esr_mean.txt")
 
-ggplot(random_mut_mean, aes(x=mut_scaled, y=mut_mean, color=constr_cond)) + plot_text + 
-  geom_line() + xlab("Mutations per base") + ylab("Mean ERM rate") + 
-  geom_hline(aes(yintercept=intron_mean$mut_mean, linetype="Introns"), color="#65ADC2") + 
-  geom_hline(aes(yintercept=exon_mean$mut_mean, linetype="Exons"), color="#000000") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1)) + 
-  scale_linetype_manual(name="Genomic mean", values=c(2, 2), 
+ggplot(random_mut_mean, aes(x=mut_scaled, y=mut_mean, color=constr_cond)) + plot_text +
+  geom_line() + xlab("Mutations per base") + ylab("Mean ERM rate") +
+  geom_hline(aes(yintercept=intron_mean$mut_mean, linetype="Introns"), color="#65ADC2") +
+  geom_hline(aes(yintercept=exon_mean$mut_mean, linetype="Exons"), color="#000000") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1)) +
+  scale_linetype_manual(name="Genomic mean", values=c(2, 2),
                         guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + theme(aspect.ratio=1)
 ggsave("../results/figures/random_sims-mut_mean.pdf", scale=plot_scale)
 
-ggplot(random_mut_mean, aes(x=mut_scaled, y=esr_mean, color=constr_cond)) + plot_text + 
-  geom_line() + xlab("Mutations per base") + ylab("Mean EI score") + 
-  geom_hline(aes(yintercept=intron_mean$esr_mean, linetype="Exons"), color="#65ADC2") + 
-  geom_hline(aes(yintercept=exon_mean$esr_mean, linetype="Introns"), color="#000000") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1)) + 
-  scale_linetype_manual(name="Genomic mean", values=c(2, 2), 
+ggplot(random_mut_mean, aes(x=mut_scaled, y=esr_mean, color=constr_cond)) + plot_text +
+  geom_line() + xlab("Mutations per base") + ylab("Mean EI score") +
+  geom_hline(aes(yintercept=intron_mean$esr_mean, linetype="Exons"), color="#65ADC2") +
+  geom_hline(aes(yintercept=exon_mean$esr_mean, linetype="Introns"), color="#000000") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1)) +
+  scale_linetype_manual(name="Genomic mean", values=c(2, 2),
                         guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + theme(aspect.ratio=1)
 ggsave("../results/figures/random_sims-esr_mean.pdf", scale=plot_scale)
 
@@ -621,14 +627,14 @@ random_kmers <- process_file(random_track_kmers2)
 random_kmers_mean <- process_kmers(random_kmers)
 write_tsv(random_kmers_mean, "../results/figures/random_sims-CpG_mean.txt")
 
-ggplot(filter(random_kmers_mean, CpG), 
-       aes(x=mut_scaled, y=prop, group=interaction(constr_cond, motif), color=constr_cond)) + plot_text + 
-  geom_line() + xlab("Mutations per base") + ylab("Mean CpG content") + 
-  geom_hline(aes(yintercept=intron_CpG$prop, linetype="Exons"), color="#65ADC2") + 
-  geom_hline(aes(yintercept=exon_CpG$prop, linetype="Introns"), color="#000000") + 
-  scale_color_discrete(legend_constraint) + 
-  guides(color=guide_legend(order=-1)) + 
-  scale_linetype_manual(name="Genomic mean", values=c(2, 2), 
+ggplot(filter(random_kmers_mean, CpG),
+       aes(x=mut_scaled, y=prop, group=interaction(constr_cond, motif), color=constr_cond)) + plot_text +
+  geom_line() + xlab("Mutations per base") + ylab("Mean CpG content") +
+  geom_hline(aes(yintercept=intron_CpG$prop, linetype="Exons"), color="#65ADC2") +
+  geom_hline(aes(yintercept=exon_CpG$prop, linetype="Introns"), color="#000000") +
+  scale_color_discrete(legend_constraint) +
+  guides(color=guide_legend(order=-1)) +
+  scale_linetype_manual(name="Genomic mean", values=c(2, 2),
                         guide=guide_legend(override.aes=list(color=c("#65ADC2", "#000000")))) + theme(aspect.ratio=1)
 ggsave("../results/figures/random_sims-CpG_mean.pdf", scale=plot_scale)
 random_mut <- NULL
@@ -657,6 +663,28 @@ random_scaled_all <- rbind(
 write_tsv(random_scaled_all, "../results/figures/random_sims-mut_bias-mut_esr_mean.txt")
 random_kmers_temp_thresh <- read_tsv("../results/figures/random_sims-random_kmers_temp_thresh.txt")
 random_kmers_temp_thresh <- left_join(dplyr::rename(random_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), random_scaled_all)
+
+ggplot(random_scaled_100_mut, 
+       aes(x=mut_scaled, y=mut_mean, color=constr_cond)) + plot_text_alt + 
+  geom_line() + xlab("Mutations per base") + ylab("Mean ERM rate") + 
+  scale_color_discrete(legend_constraint) + 
+  guides(color=guide_legend(order=-1)) + 
+  scale_linetype_discrete("Mutational bias") + 
+  theme(strip.text.x = element_blank()) + theme(aspect.ratio=0.75) + theme(panel.spacing=unit(0.5, "cm")) + 
+  geom_point(data=filter(random_kmers_temp_thresh, scaling_factor == "1.0 (Original)"), 
+    mapping=aes(x=mut_scaled, y=mut_mean), color="red")
+ggsave("../results/figures/random_sims-mut_bias-simsorig_mut.pdf", scale=plot_scale_alt)
+
+ggplot(random_scaled_100_mut, 
+       aes(x=mut_scaled, y=esr_mean, color=constr_cond)) + plot_text_alt + 
+  geom_line() + xlab("Mutations per base") + ylab("Mean EI score") + 
+  scale_color_discrete(legend_constraint) + 
+  guides(color=guide_legend(order=-1)) + 
+  scale_linetype_discrete("Mutational bias") + 
+  theme(strip.text.x = element_blank()) + theme(aspect.ratio=0.75) + theme(panel.spacing=unit(0.5, "cm")) + 
+  geom_point(data=filter(random_kmers_temp_thresh, scaling_factor == "1.0 (Original)"), 
+             mapping=aes(x=mut_scaled, y=esr_mean), color="red")
+ggsave("../results/figures/random_sims-mut_bias-simsorig_esr.pdf", scale=plot_scale_alt)
 
 ggplot(random_scaled_all, 
        aes(x=mut_scaled, y=mut_mean, color=constr_cond, linetype=as.factor(scaling_factor))) + plot_text_alt + 
@@ -879,7 +907,24 @@ ggplot(random_scaled_var,
   theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm")) + 
   geom_point(data=random_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=prop_var), color="red")
 ggsave("../results/figures/random_sims-mut_bias-kmers4_simsall_prop_var.pdf", scale=plot_scale_alt)
-# rm(list=ls()[grepl("random_scaled", ls())])
+
+random_scaled_ent <- random_scaled_all %>% 
+  group_by(mut_scaled, scaling_factor, constr_cond) %>% 
+  summarise(prop_ent=Entropy(prop)) %>% ungroup()
+write_tsv(random_scaled_all, "../results/figures/random_sims-mut_bias-kmers4_motif_ent.txt")
+random_kmers_temp_thresh <- read_tsv("../results/figures/random_sims-random_kmers_temp_thresh.txt")
+random_kmers_temp_thresh <- left_join(dplyr::rename(random_kmers_temp_thresh, mut_scaled=prop.diff.xthresh), random_scaled_ent)
+
+ggplot(random_scaled_ent, 
+       aes(x=mut_scaled, y=prop_ent, color=constr_cond, linetype=as.factor(scaling_factor))) + plot_text_alt + 
+  geom_line() + xlab("Mutations per base") + ylab("Shannon entropy of 4-mer frequencies") + 
+  scale_color_discrete(legend_constraint) + 
+  guides(color=guide_legend(order=-1)) + 
+  scale_linetype_discrete("Mutational bias") + 
+  facet_wrap(~constr_cond) + theme(strip.text.x = element_blank()) + 
+  theme(aspect.ratio=2) + theme(panel.spacing=unit(0.5, "cm")) + 
+  geom_point(data=random_kmers_temp_thresh, mapping=aes(x=mut_scaled, y=prop_ent), color="red")
+ggsave("../results/figures/random_sims-mut_bias-kmers4_simsall_prop_ent.pdf", scale=plot_scale_alt)
 
 # # # mutation rate vs equilibrium frequency
 random_track_kmers6 <- paste(

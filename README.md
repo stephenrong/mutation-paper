@@ -27,6 +27,6 @@ scripts/ contains the following:
 ### Dependencies:
 Python (>=2.7.14), with NumPy (>=1.14.2), pandas (>=0.22.0), and Biopython (>=1.68)
 
-R (>=3.4.4), with tidyverse (>=1.2.1), ggthemr (>=1.1.0), patchwork (>=0.0.1), biomaRt (>=2.34.2), seqinr (>=3.4-5), and SDMTools (>=1.1-221)
+R (>=3.4.4), with tidyverse (>=1.2.1), ggthemr (>=1.1.0), patchwork (>=0.0.1), biomaRt (>=2.34.2), seqinr (>=3.4-5), SDMTools (>=1.1-221), and DescTools (>=0.99.26)
 
 Simulations were performed on a HPC cluster running Slurm. Figures were generated on a MacBook Pro (Early 2015) running High Sierra (10.13.1).
