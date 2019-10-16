@@ -1,4 +1,4 @@
-# Mutational bias and the co-evolution of protein and splicing codes
+# Simulations for 'Mutational bias and the co-evolution of protein and splicing codes' paper
 
 Stephen Rong, Luke Buerer, Christy L. Rhine, Jing Wang, Kamil J. Cygan, and William G. Fairbrother
 
