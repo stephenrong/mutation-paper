@@ -2,6 +2,7 @@
 
 from __future__ import division
 import sys
+import gzip
 from mu_sims_module import *
 from numpy.random import randint
 
@@ -16,7 +17,8 @@ if __name__ == '__main__':
 	mut_matrix = get_mut_matrix(mut_file)
 
 	# import sequences
-	seq_exon = [record.seq for record in SeqIO.parse("../data/hg19-unipAliSwissprot-cds_genes.txt", "fasta")]
+	with gzip.open("../data/hg19-unipAliSwissprot-cds_genes.txt.gz", "rt") as handle:
+		seq_exon = [record.seq for record in SeqIO.parse(handle, "fasta")]
 
 	# output files
 	run_file = "../results/simulations/exon_"+str(iter_start)+"_"+str(iter_end)
@@ -57,10 +59,10 @@ if __name__ == '__main__':
 			mut_step = 50
 			mut_final = 10*len(seq_sequence)
 			muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, mut_final, mut_step, 30, False)
+
 	# track kmer freqs
-	for kmer_size in range(1, 5):
-		out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, True)
 	for kmer_size in range(6, 7):
-		out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, False)
-	# for kmer_size in range(5, 8):
-	# 	out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, False)
+		out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, True)
+
+	# track mut, esr, and rosenberg scores
+	out_seq_mut(run_file+"_track_seq.txt", run_file+"_track_mut.txt")

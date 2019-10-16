@@ -1,0 +1,1 @@
+init_cond	constr_cond	run_number	seq_lengthmutation	mut_scaled	mutation_tot	mut_scaled_tot	codonBefore	codonAfter	wtMotif	mtMotif	mutRate	aminoBefore	aminoAfter	aminoCheck

@@ -1,14 +1,16 @@
 # mutation-paper
 
-Scripts for performing and analyzing evolutionary simulations in paper titled "Mutational bias and the co-evolution of protein and splicing code" by Stephen Rong\*, Christy L. Rhine\*, Jing Wang, Kamil J. Cygan, Luke Buerer, and William G. Fairbrother (\*contributed equally to this work). Simulations are initialized with either random sequences or human exonic sequences evolved under mutation rate profiles with varying levels of mutational bias and purifying selection. Details of simulations are described in paper.
+Scripts for performing and analyzing evolutionary simulations in paper titled "Mutational bias and the co-evolution of protein and splicing code" by Stephen Rong, Luke Buerer, Christy L. Rhine, Jing Wang, Kamil J. Cygan, and William G. Fairbrother. Simulations are initialized with either random sequences or human exonic sequences evolved under mutation rate profiles with varying levels of mutational bias and purifying selection. Details of simulations are described in paper.
 
-Custom scripts written by Stephen Rong (Fairbrother Lab, Brown University). Have questions? Contact stephen[underscore]rong[at]brown[dot]edu or post a git issue.
+Scripts written by Stephen Rong (Fairbrother Lab, Brown University). Have questions? Contact stephen[underscore]rong[at]brown[dot]edu or post a git issue.
+
+Last updated: Oct 16, 2019
 
 ### Contents:
 
-data/ contains all required data files for performing and analyzing simulations with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can instead be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
+data/ contains all required data files for performing simulations.
 
-results/ contains placeholder directories for simulation and figure output.
+results/ contains placeholder directories for simulation output.
 
 scripts/ contains the following:
 
@@ -22,11 +24,13 @@ scripts/ contains the following:
 
 - mu_sims_random_scaled_0.py, mu_sims_random_scaled_50.py, mu_sims_random_scaled_100.py, mu_sims_random_scaled_200.py, mu_sims_random_scaled_0_sh.py, mu_sims_random_scaled_50_sh.py, mu_sims_random_scaled_100_sh.py, mu_sims_random_scaled_200_sh.py are variations on the above mu_sims_random.py and mu_sims_random_sh.py used to generate results for varying levels of mutational bias. Run \*\_sh.py and then \*.sh to output simulations to results/simulations/.
 
-- mu_sims_figures.R is used to generate all simulation related figures in paper. mu_sims_intermediate.R is used to generate figure of intermediate constraint simulations. Run these scripts to output simulation related figures to results/figures/.
+- scripts/temp_scripts/test.sh ... 
+
+- results/simulations/\*_0_2_\* files ... 
 
 ### Dependencies:
-Python (>=2.7.14), with NumPy (>=1.14.2), pandas (>=0.22.0), and Biopython (>=1.68)
+Python (>=2.7.14), with NumPy (>=1.14.2), pandas (>=0.22.0), and Biopython (>=1.68).
 
-R (>=3.4.4), with tidyverse (>=1.2.1), ggthemr (>=1.1.0), patchwork (>=0.0.1), biomaRt (>=2.34.2), seqinr (>=3.4-5), SDMTools (>=1.1-221), and DescTools (>=0.99.26)
+R (>=3.4.4), with tidyverse (>=1.2.1), ggthemr (>=1.1.0).
 
-Simulations were performed on a HPC cluster running Slurm. Figures were generated on a MacBook Pro (Early 2015) running High Sierra (10.13.1).
+Simulations were performed on a HPC cluster running Slurm.

@@ -50,7 +50,8 @@ if __name__ == '__main__':
 			muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, 9990, 50, 30, False)
 
 	# track kmer freqs
-	for kmer_size in range(1, 5):
+	for kmer_size in range(6, 7):
 		out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, True)
-	# for kmer_size in range(5, 8):
-	# 	out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, False)
+
+	# track mut, esr, and rosenberg scores
+	out_seq_mut(run_file+"_track_seq.txt", run_file+"_track_mut.txt")

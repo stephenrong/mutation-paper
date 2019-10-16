@@ -64,11 +64,11 @@ def initiate_seq_mutrates(mut_matrix, seq_sequence):
 		for j in range(0, len(mtMotif_list)):
 			mtMotif = mtMotif_list[j]
 			if wtMotif != mtMotif:
-				seq_mutrates[j, i] = mut_matrix[(wtMotif, mtMotif)]
+				seq_mutrates[j, i] = mut_matrix.get((wtMotif, mtMotif), np.nan)
 	return seq_mutrates
 
 def initate_seq_sumrates(seq_mutrates):
-	seq_sumrates = np.sum(seq_mutrates, axis=0)
+	seq_sumrates = np.nansum(seq_mutrates, axis=0)
 	return seq_sumrates
 
 def weighted_choice(weights):
@@ -103,16 +103,16 @@ def update_constraint_none(mut_matrix, seq_sequence, seq_mutrates, seq_sumrates,
 		for j in range(0, len(mtMotif_list)):
 			mtMotif = mtMotif_list[j]
 			if wtMotif != mtMotif:
-				seq_mutrates_update[j, i] = mut_matrix[(wtMotif, mtMotif)]
+				seq_mutrates_update[j, i] = mut_matrix.get((wtMotif, mtMotif), np.nan)
 			else:
 				seq_mutrates_update[j, i] = 0
 	# update sumrates in-place
 	seq_sumrates_update = seq_sumrates
 	if start_mod < end_mod:
-		seq_sumrates_update[start_mod:end_mod] = np.sum(seq_mutrates_update[0:4, start_mod:end_mod], axis=0)
+		seq_sumrates_update[start_mod:end_mod] = np.nansum(seq_mutrates_update[0:4, start_mod:end_mod], axis=0)
 	else:
-		seq_sumrates_update[start_mod:len_seq] = np.sum(seq_mutrates_update[0:4, start_mod:len_seq], axis=0)
-		seq_sumrates_update[0:end_mod] = np.sum(seq_mutrates_update[0:4, 0:end_mod], axis=0)
+		seq_sumrates_update[start_mod:len_seq] = np.nansum(seq_mutrates_update[0:4, start_mod:len_seq], axis=0)
+		seq_sumrates_update[0:end_mod] = np.nansum(seq_mutrates_update[0:4, 0:end_mod], axis=0)
 	return seq_sequence_update, seq_mutrates_update, seq_sumrates_update
 
 def get_kmer_profile(seq_sequence, kmer_size):
@@ -186,7 +186,7 @@ def check_constraint_grantham(seq_sequence_init, seq_sequence, temp_index, thres
 
 def get_esrmean(seq_sequence):
 	seq_kmers = [str(seq_sequence[i:i+6]) for i in range(0, len(seq_sequence)-5)]
-	esr_mean = np.mean([esr_matrix[i] for i in seq_kmers])
+	esr_mean = np.nanmean([esr_matrix.get(i, np.nan) for i in seq_kmers])
 	return esr_mean
 
 def get_kmerfreq(seq_sequence, kmer_size):
@@ -213,13 +213,54 @@ def out_seq_kmers(in_file, out_file, kmer_size, verbose):
 					temp_kmers = [count_kmers.get(j, 0) for j in count_keys]
 					f.write(prefix+"\t"+str(seq_temp["seq_length"][i])+"\t"+str(seq_temp["mutation"][i])+"\t"+str(seq_temp["mut_scaled"][i])+"\t"+str(seq_temp["mutation_tot"][i])+"\t"+str(seq_temp["mut_scaled_tot"][i])+"\t"+"\t".join([str(j) for j in temp_kmers])+"\n")
 
+def get_rosenberg_matrix(A3SS_R1, A3SS_R2, A5SS_R1, A5SS_R2):
+	A3SS_R1 = pd.read_table(A3SS_R1)
+	A3SS_R2 = pd.read_table(A3SS_R2)
+	A5SS_R1 = pd.read_table(A5SS_R1)
+	A5SS_R2 = pd.read_table(A5SS_R2)
+	rosenberg_matrix = dict()
+	for i, k in [(A3SS_R1, "A3SS_R1"), (A3SS_R2, "A3SS_R2"), (A5SS_R1, "A5SS_R1"), (A5SS_R2, "A5SS_R2")]:
+		rosenberg_matrix[k] = dict()
+		for j in range(0, len(i)):
+			rosenberg_matrix[k][i["motif"][j]] = i[k + "_mean_effects"][j]
+	return rosenberg_matrix
+
 # # # global variables
-# mut_file = "../data/mu-matrix-7mers.txt"
-# mut_matrix = get_mut_matrix(mut_file)
-esr_file = "../data/chasin_ESS_ESE_numbers.txt"
-esr_matrix = get_esr_matrix(esr_file)
+mut_file = "../data/mu-matrix-7mers.txt"
+mut_matrix = get_mut_matrix(mut_file)
+esr_matrix = get_esr_matrix(
+	"../data/chasin_ESS_ESE_numbers.txt")
+rosenberg_matrix = get_rosenberg_matrix(
+	"../data/mean_effects_sdpos_A3SS_R1.txt", 
+	"../data/mean_effects_sdpos_A3SS_R2.txt", 
+	"../data/mean_effects_sdpos_A5SS_R1.txt", 
+	"../data/mean_effects_sdpos_A5SS_R2.txt")
 grantham_matrix = get_grantham_matrix()
 update_middle = ["A", "C", "G", "T"]
+
+def get_rosenberg_mean(seq_sequence, score):
+	seq_kmers = [str(seq_sequence[i:i+6]) for i in range(0, len(seq_sequence)-5)]
+	rosenberg_mean = np.nanmean([rosenberg_matrix[score].get(i, np.nan) for i in seq_kmers])
+	return rosenberg_mean
+
+def get_mutrates_mean(seq_sequence):
+	seq_mutrates = initiate_seq_mutrates(mut_matrix, seq_sequence)
+	seq_sumrates = initate_seq_sumrates(seq_mutrates)
+	mutrates_mean = (np.nanmean(seq_sumrates)/3)
+	return mutrates_mean
+
+def out_seq_mut(in_file, out_file):
+	seq_temp = pd.read_table(in_file)
+	max_value = np.max(seq_temp["mut_scaled"])
+	with open(out_file, "w+") as f:
+		prefix = "init_cond"+"\t"+"constr_cond"+"\t"+"run_number"
+		f.write(prefix+"\t"+"seq_length"+"\t"+"mutation"+"\t"+"mut_scaled"+"\t"+"mutation_tot"+"\t"+"mut_scaled_tot"+\
+			"\t"+"mut_mean"+"\t"+"esr_mean"+"\t"+"A3SS_R1_mean"+"\t"+"A3SS_R2_mean"+"\t"+"A5SS_R1_mean"+"\t"+"A5SS_R2_mean"+"\n")
+		for i in range(0, len(seq_temp)):
+			seq_sequence = seq_temp["sequence"][i]
+			prefix = str(seq_temp["init_cond"][i])+"\t"+str(seq_temp["constr_cond"][i])+"\t"+str(seq_temp["run_number"][i])
+			f.write(prefix+"\t"+str(seq_temp["seq_length"][i])+"\t"+str(seq_temp["mutation"][i])+"\t"+str(seq_temp["mut_scaled"][i])+"\t"+str(seq_temp["mutation_tot"][i])+"\t"+str(seq_temp["mut_scaled_tot"][i])+"\t"+\
+				str(get_mutrates_mean(seq_sequence))+"\t"+str(get_esrmean(seq_sequence))+"\t"+str(get_rosenberg_mean(seq_sequence, "A3SS_R1"))+"\t"+str(get_rosenberg_mean(seq_sequence, "A3SS_R2"))+"\t"+str(get_rosenberg_mean(seq_sequence, "A5SS_R1"))+"\t"+str(get_rosenberg_mean(seq_sequence, "A5SS_R2"))+"\n")
 
 # # # simulation functions
 def muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, mut_final, mut_step, threshold, verbose):
@@ -234,7 +275,7 @@ def muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_v
 	i = 0
 	j = 0
 	track_seq.write(prefix+"\t"+str(len(seq_sequence))+"\t"+str(i)+"\t"+str(i/len(seq_sequence))+"\t"+str(j)+"\t"+str(j/len(seq_sequence))+"\t"+str(seq_sequence)+"\n")
-	track_mut.write(prefix+"\t"+str(len(seq_sequence))+"\t"+str(i)+"\t"+str(i/len(seq_sequence))+"\t"+str(j)+"\t"+str(j/len(seq_sequence))+"\t"+str(np.mean(seq_sumrates)/3)+"\t"+str(get_esrmean(seq_sequence)) +"\n")
+	# track_mut.write(prefix+"\t"+str(len(seq_sequence))+"\t"+str(i)+"\t"+str(i/len(seq_sequence))+"\t"+str(j)+"\t"+str(j/len(seq_sequence))+"\t"+str(np.nanmean(seq_sumrates)/3)+"\t"+str(get_esrmean(seq_sequence)) +"\n")
 	for i in range(1, mut_final+1):
 		# get mutation
 		amino_check = False
@@ -246,7 +287,7 @@ def muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_v
 				wtMotif = get_cyclic_substring(seq_sequence, temp_index[1]-3, temp_index[1]+4)
 				mtMotif = wtMotif[0:3]+update_middle[temp_index[0]]+wtMotif[4:7]
 				track_verbose.write(prefix+"\t"+str(len(seq_sequence))+"\t"+str(i)+"\t"+str(i/len(seq_sequence))+"\t"+str(j)+"\t"+str(j/len(seq_sequence))+"\t"+\
-					str(codon_before)+"\t"+str(codon_after)+"\t"+str(wtMotif)+"\t"+str(mtMotif)+"\t"+str(mut_matrix[(wtMotif, mtMotif)])+"\t"+\
+					str(codon_before)+"\t"+str(codon_after)+"\t"+str(wtMotif)+"\t"+str(mtMotif)+"\t"+str(mut_matrix.get((wtMotif, mtMotif), np.nan))+"\t"+\
 					str(codon_before.translate())+"\t"+str(codon_after.translate())+"\t"+str(amino_check)+"\n")
 		# update sequence
 		seq_sequence, seq_mutrates, seq_sumrates = update_constraint_none(mut_matrix, seq_sequence, seq_mutrates, seq_sumrates, temp_index)
@@ -254,5 +295,5 @@ def muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_v
 		# if (i % np.ceil(mut_final/mut_step) == 0):
 		if i in iter_print:
 			track_seq.write(prefix+"\t"+str(len(seq_sequence))+"\t"+str(i)+"\t"+str(i/len(seq_sequence))+"\t"+str(j)+"\t"+str(j/len(seq_sequence))+"\t"+str(seq_sequence)+"\n")
-			track_mut.write(prefix+"\t"+str(len(seq_sequence))+"\t"+str(i)+"\t"+str(i/len(seq_sequence))+"\t"+str(j)+"\t"+str(j/len(seq_sequence))+"\t"+str(np.mean(seq_sumrates)/3)+"\t"+str(get_esrmean(seq_sequence)) +"\n")
+			# track_mut.write(prefix+"\t"+str(len(seq_sequence))+"\t"+str(i)+"\t"+str(i/len(seq_sequence))+"\t"+str(j)+"\t"+str(j/len(seq_sequence))+"\t"+str(np.nanmean(seq_sumrates)/3)+"\t"+str(get_esrmean(seq_sequence)) +"\n")
 	return seq_sequence
