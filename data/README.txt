@@ -6,4 +6,4 @@ Downloaded ERV mutation rate estimates from Carlson et al. (Nature Communication
 
 Generated mean_effects_sdpos_A\*SS_R\* files from rerunning Rosenberg et al. (Cell 2015) IPython 'Notebook 4: Motif Effect Sizes' available at https://github.com/Alex-Rosenberg/cell-2015/tree/master/ipython.notebooks. Accessed on 2018-09-29.
 
-Received chasin_ESS_ESE_numbers.txt from chrine on 2018-06-14. Can be generated from Supplementary Table 1 of Ke et al. (Genome Research 2011).
+Received chasin_ESS_ESE_numbers.txt from chrine on 2018-06-14. Can be generated from 'ESEseq or ESSseq scores' column from Supplementary Table 1 of Ke et al. (Genome Research 2011).
