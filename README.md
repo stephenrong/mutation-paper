@@ -1,14 +1,16 @@
-# mutation-paper
+# Mutational bias and the co-evolution of protein and splicing codes
 
-Scripts for performing and analyzing evolutionary simulations in paper titled "Mutational bias and the co-evolution of protein and splicing code" by Stephen Rong, Luke Buerer, Christy L. Rhine, Jing Wang, Kamil J. Cygan, and William G. Fairbrother. Simulations are initialized with either random sequences or human exonic sequences evolved under mutation rate profiles with varying levels of mutational bias and purifying selection. Details of simulations are described in paper.
+Stephen Rong, Luke Buerer, Christy L. Rhine, Jing Wang, Kamil J. Cygan, and William G. Fairbrother
+
+Scripts for performing simulations described in paper. Simulations are initialized on a 'genome' of random sequences of human exons. Substitutions are drawn in proportion to estimated relative mutation (ERM) rates from Carlson et al. (2019) based on 7-mer sequence context. Simulations are run under models with or without purifying selection against changes to the protein coding sequence.
 
 Scripts written by Stephen Rong (Fairbrother Lab, Brown University). Have questions? Contact stephen[underscore]rong[at]brown[dot]edu or post a git issue.
 
-Last updated: Oct 16, 2019
+Last updated: Oct 17, 2019
 
 ### Contents:
 
-data/ contains all required data files for performing simulations with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can instead be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
+data/ contains all required data files for performing simulations with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb, 292 Mb gzipped ... ), which can instead be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
 
 results/ contains placeholder directories for simulation output.
 
