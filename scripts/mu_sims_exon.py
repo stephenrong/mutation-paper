@@ -50,15 +50,15 @@ if __name__ == '__main__':
 			mut_final = 10*len(seq_sequence)
 			muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, mut_final, mut_step, 0, False)
 
-		for i in range(iter_start, iter_end):
-			init_cond = "exon"
-			constr_cond = "grantham"
-			run_number = str(i)
-			print init_cond+"_"+constr_cond+"_"+run_number
-			seq_sequence = seq_exon[i]
-			mut_step = 50
-			mut_final = 10*len(seq_sequence)
-			muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, mut_final, mut_step, 30, False)
+		# for i in range(iter_start, iter_end):
+		# 	init_cond = "exon"
+		# 	constr_cond = "grantham"
+		# 	run_number = str(i)
+		# 	print init_cond+"_"+constr_cond+"_"+run_number
+		# 	seq_sequence = seq_exon[i]
+		# 	mut_step = 50
+		# 	mut_final = 10*len(seq_sequence)
+		# 	muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, mut_final, mut_step, 30, False)
 
 	# track kmer freqs
 	for kmer_size in range(6, 7):

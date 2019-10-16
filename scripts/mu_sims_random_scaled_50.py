@@ -41,13 +41,13 @@ if __name__ == '__main__':
 			seq_sequence = initiate_seq_sequence(999)
 			muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, 9990, 50, 0, False)
 
-		for i in range(iter_start, iter_end):
-			init_cond = "random"
-			constr_cond = "grantham"
-			run_number = str(i)
-			print init_cond+"_"+constr_cond+"_"+run_number
-			seq_sequence = initiate_seq_sequence(999)
-			muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, 9990, 50, 30, False)
+		# for i in range(iter_start, iter_end):
+		# 	init_cond = "random"
+		# 	constr_cond = "grantham"
+		# 	run_number = str(i)
+		# 	print init_cond+"_"+constr_cond+"_"+run_number
+		# 	seq_sequence = initiate_seq_sequence(999)
+		# 	muSimsConstraintGranthamSimulation(mut_matrix, track_seq, track_mut, track_verbose, init_cond, constr_cond, run_number, seq_sequence, 9990, 50, 30, False)
 
 	# track kmer freqs
 	for kmer_size in range(6, 7):
