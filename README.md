@@ -8,7 +8,7 @@ Last updated: Oct 16, 2019
 
 ### Contents:
 
-data/ contains all required data files for performing simulations.
+data/ contains all required data files for performing simulations with the exception of the file data/hg19-unipAliSwissprot-introns.txt (too large at 974 Mb), which can instead be downloaded from the UCSC Table Browser (GRCh37/hg19 assembly, Genes and Gene Predictions group, UniProt track, SwissProt Aln. table, introns only, accessed on 2018/07/05).
 
 results/ contains placeholder directories for simulation output.
 
