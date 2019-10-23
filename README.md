@@ -1,4 +1,4 @@
-# Mutational bias and the co-evolution of protein and splicing codes
+# Mutational bias and the protein-code shape the evolution of splicing enhancers
 
 Stephen Rong, Luke Buerer, Christy L. Rhine, Jing Wang, Kamil J. Cygan, and William G. Fairbrother
 
