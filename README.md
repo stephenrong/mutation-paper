@@ -6,7 +6,7 @@ Scripts for running the simulations as described in the paper. Simulations are i
 
 Scripts written by Stephen Rong (PhD Candidate, Fairbrother Lab, Brown University). Have questions? Contact stephen[underscore]rong[at]brown[dot]edu or post a git issue.
 
-Last updated: Oct 17, 2019
+Last updated: Oct 24, 2019
 
 ### Contents:
 
