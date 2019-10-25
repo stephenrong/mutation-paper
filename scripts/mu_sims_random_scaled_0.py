@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
 	# track kmer freqs
 	for kmer_size in range(6, 7):
-		out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, True)
+		out_seq_kmers(run_file+"_track_seq.txt", run_file+"_track_kmers"+str(kmer_size)+".txt", kmer_size, False)
 
 	# track mut, esr, and rosenberg scores
 	out_seq_mut(run_file+"_track_seq.txt", run_file+"_track_mut.txt")
