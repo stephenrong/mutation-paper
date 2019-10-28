@@ -105,15 +105,15 @@ heptamer_mu_final <- heptamer_mu_final %>%
   mutate(mutate_CpG_TpG=(grepl("CG", substr(wtMotif, 4, 5)) & (grepl("TG", substr(mtMotif, 4, 5))))) %>% 
   mutate(mutate_CpG = mutate_CpG_CpA | mutate_CpG_TpG)
 
-ggplot(heptamer_mu_final) + 
-  geom_point(aes(x=as.numeric(ERV_rel_rate), y=as.numeric(ERV_rel_rate_5mer))) + 
-  xlab("ERV relative 7mer mutation rate") + ylab("ERV relative 5mer mutation rate")
-ggsave("../results/figures/mu_matrix-7mer_v_5mer.pdf")
+# ggplot(heptamer_mu_final) + 
+#   geom_point(aes(x=as.numeric(ERV_rel_rate), y=as.numeric(ERV_rel_rate_5mer))) + 
+#   xlab("ERV relative 7mer mutation rate") + ylab("ERV relative 5mer mutation rate")
+# ggsave("../results/figures/mu_matrix-7mer_v_5mer.pdf")
 
-ggplot(heptamer_mu_final) + 
-  geom_point(aes(x=as.numeric(row_number), y=as.numeric(ERV_rel_rate), color=mutate_CpG)) + 
-  xlab("7mer row index") + ylab("ERV relative 7mer mutation rate") + labs(color="CpG transition")
-ggsave("../results/figures/mu_matrix-CpG_index.pdf")
+# ggplot(heptamer_mu_final) + 
+#   geom_point(aes(x=as.numeric(row_number), y=as.numeric(ERV_rel_rate), color=mutate_CpG)) + 
+#   xlab("7mer row index") + ylab("ERV relative 7mer mutation rate") + labs(color="CpG transition")
+# ggsave("../results/figures/mu_matrix-CpG_index.pdf")
 
 # mutation bias
 mu_mean <- mean(heptamer_mu_final$ERV_rel_rate)
