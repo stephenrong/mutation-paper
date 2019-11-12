@@ -32,6 +32,8 @@ scripts/ contains the following files:
 
 - temp_scripts/test.sh produces example simulation output. Output already included in results/simulations/.
 
+- analytical_model_double.R solves for the mutation-selection balance of exon vs intron motif ratio for randomly sampled mutation rate matrices with different mutational bias, and for different levels of purifying selection, and plots Supplementary Fig. 7.
+
 ### Dependencies:
 Python (>=2.7.14), with NumPy (>=1.14.2), pandas (>=0.22.0), and Biopython (>=1.68)
 
