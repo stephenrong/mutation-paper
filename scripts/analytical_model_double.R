@@ -59,7 +59,7 @@ get_equilibrium_frequencies <- function(N, M, S, Q) {
 }
 
 # constants
-N = 5  # 50
+N = 20  # 50
 M_mu = 0
 
 # initialize
