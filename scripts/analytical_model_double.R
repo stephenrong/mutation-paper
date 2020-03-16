@@ -1,6 +1,4 @@
 library(tidyverse)
-# library(MCMCpack)
-# library(ramify)
 
 sample_M_double <- function(N, M_mu, M_sigma) {
   # log-normally distributed entries
