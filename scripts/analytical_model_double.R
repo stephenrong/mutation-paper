@@ -120,15 +120,6 @@ output_list_v2_mean <- output_list_v2_temp %>%
 write_tsv(output_list_v2_mean, "../results/figures/output_list_v2_mean_double.txt")
 output_list_v2_mean <- read_tsv("../results/figures/output_list_v2_mean_double.txt")
 
-ggplot(output_list_v2_mean) + 
-  geom_line(aes(x=M_sigma, y=log2(motif_ratio), color=as.factor(motif_ratio_summary)), 
-               position="identity") + theme(aspect.ratio=3) + 
-  facet_grid(cols=vars(S)) + 
-  xlab("Increasing mutational bias (mb)") + ylab("Exon vs intron motif ratio (log2)") + 
-  scale_color_manual(name="Quantile", values=palette_blue_red) + 
-  scale_x_continuous(breaks=c(0, 0.5, 1.0), limits=c(-0.1, 1.1))
-ggsave("../results/figures/analytical_model_uniform_mean_double_transpose.pdf", width=5, height=5)
-
 # # # revision
 output_list_v2_exon_temp <- filter(output_list_v2, S!=1) %>% 
   group_by(M_sigma, S, Q_alpha) %>% summarise(
@@ -168,6 +159,15 @@ write_tsv(output_list_v2_intron_mean, "../results/figures/output_list_v2_intron_
 output_list_v2_intron_mean <- read_tsv("../results/figures/output_list_v2_intron_mean_double.txt")
 
 # plots
+ggplot(output_list_v2_mean) + 
+  geom_line(aes(x=M_sigma, y=log2(motif_ratio), color=as.factor(motif_ratio_summary)), 
+               position="identity") + theme(aspect.ratio=3) + 
+  facet_grid(cols=vars(S)) + 
+  xlab("Increasing mutational bias (mb)") + ylab("Exon vs intron motif ratio (log2)") + 
+  scale_color_manual(name="Quantile", values=palette_blue_red) + 
+  scale_x_continuous(breaks=c(0, 0.5, 1.0), limits=c(-0.1, 1.1))
+ggsave("../results/figures/analytical_model_uniform_mean_double_transpose.pdf", width=5, height=5)
+
 ggplot(output_list_v2_exon_mean) + 
   geom_line(aes(x=M_sigma, y=log2(motif_exon), color=as.factor(motif_exon_summary)), 
                position="identity") + theme(aspect.ratio=3) + 
