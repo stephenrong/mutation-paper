@@ -1,4 +1,6 @@
 library(tidyverse)
+# library(MCMCpack)
+# library(ramify)
 
 sample_M_double <- function(N, M_mu, M_sigma) {
   # log-normally distributed entries
@@ -10,13 +12,17 @@ sample_M_double <- function(N, M_mu, M_sigma) {
   for (i in 1:N) {
     for (j in 1:N) { 
       if (i != j) {
-        M[i, j] <- M_prime[j, 1]*pmax(
+        # M[i, j] <- M_prime[j, 1]*pmax(
+        #   0, exp(rnorm(1, M_mu, M_sigma)))
+        M[i, j] <- M_prime[i, 1]*pmax(
           0, exp(rnorm(1, M_mu, M_sigma)))
       }
     }
   }
+  # M <- t(M)
   for (i in 1:N) {
-    M[i, i] <- -sum(M[, i], na.rm=T)
+    # M[i, i] <- -sum(M[, i], na.rm=T)
+    M[i, i] <- -sum(M[i, ], na.rm=T)
   }
   return(M)
 }
@@ -48,9 +54,11 @@ sample_Q <- function(N, Q_alpha) {
 
 get_equilibrium_frequencies <- function(N, M, S, Q) {
   E_N <- as.matrix(c(rep(0, N-1), 1))
-  M_N <- M; M_N[N, ] <- rep(1, N)
+  # M_N <- M; M_N[N, ] <- rep(1, N)
+  M_N <- M; M_N[, N] <- rep(1, N)
   Q_S <- S*Q
-  P_0 <- solve(M_N) %*% E_N
+  # P_0 <- solve(M_N) %*% E_N
+  P_0 <- t(t(E_N) %*% solve(M_N))
   # analytic derivation
   P <- (1-S)*P_0 + Q_S
   return(P)
