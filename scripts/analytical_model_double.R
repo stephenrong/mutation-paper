@@ -2,6 +2,8 @@ library(tidyverse)
 # library(MCMCpack)
 # library(ramify)
 
+set.seed(03192020)
+
 sample_M_double <- function(N, M_mu, M_sigma) {
   # log-normally distributed entries
   M_prime <- matrix(nrow=N, ncol=1)
