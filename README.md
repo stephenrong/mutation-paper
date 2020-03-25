@@ -2,11 +2,11 @@
 
 Stephen Rong, Luke Buerer, Christy L. Rhine, Jing Wang, Kamil J. Cygan, and William G. Fairbrother
 
-Scripts for running the simulations as described in the paper. Simulations are initialized on a 'genome' of random sequences or human exon sequences. Substitutions are drawn in proportion to estimated relative mutation (ERM) rates from Carlson et al. (Nature Communiations 2018) based on 7-mer sequence context. Simulations are run under models with (analogous to exons) or without purifying selection against changes to the protein coding sequence (analogous to introns).
+Scripts for running the evolutionary simulations and mathematical model described in the paper. Simulations are initialized on a 'genome' of random sequences or human exon sequences. Substitutions are drawn in proportion to estimated relative mutation (ERM) rates from Carlson et al. (Nature Communiations 2018) based on 7-mer sequence context. Simulations are run under models with (analogous to exons) or without purifying selection against changes to the protein coding sequence (analogous to introns).
 
 Scripts written by Stephen Rong (PhD Candidate, Fairbrother Lab, Brown University). Have questions? Contact stephen[underscore]rong[at]brown[dot]edu or post a git issue.
 
-Last updated: March 19th, 2020
+Last updated: March 25th, 2020
 
 ### Contents:
 
